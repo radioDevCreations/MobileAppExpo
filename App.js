@@ -1,20 +1,60 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState, setState } from "react";
+import { StyleSheet, Text, View, Button, TextInput } from "react-native";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+const App = () => {
+	const goalInputChange = (enteredText) => {
+		setInputValue(enteredText);
+	};
+	const addGoalInputClick = () => {
+		setList([...list, inputValue]);
+		setInputValue("");
+	};
+	const [inputValue, setInputValue] = useState("");
+	const [list, setList] = useState([], setList);
+	return (
+		<View style={styles.appContainer}>
+			<View style={styles.inputContainer}>
+				<TextInput
+					styles={styles.textInput}
+					placeholder="Your course goal..."
+					onChangeText={goalInputChange}
+					value={inputValue}
+				/>
+				<Button title="Add Goal" onPress={addGoalInputClick} />
+			</View>
+			<View style={styles.goalsContainer}>
+				{list.map((item) => (
+					<Text key={item}>{item}</Text>
+				))}
+			</View>
+		</View>
+	);
+};
+
+export default App;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	appContainer: {
+		flex: 1,
+		padding: 50,
+	},
+	inputContainer: {
+		flex: 1,
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		marginBottom: 24,
+		borderBottomWidth: 1,
+		borderBlockColor: "#cccccc",
+	},
+	textInput: {
+		borderWidth: 1,
+		borderColor: "#cccccc",
+		width: "70%",
+		marginRight: 8,
+		padding: 8,
+	},
+	goalsContainer: {
+		flex: 5,
+	},
 });
